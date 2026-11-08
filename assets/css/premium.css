@@ -59,3 +59,15 @@ body{background:radial-gradient(ellipse at 78% 4%,#3a168a35,transparent 32%),rad
 @media(max-width:900px){.hero{grid-template-columns:1fr;gap:45px;padding-top:75px}.hero-visual{max-width:760px;width:100%;margin:auto}.portrait-placeholder{height:420px}.service-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:680px){.hero{padding-top:65px;padding-bottom:70px}.hero h1{font-size:clamp(55px,14vw,78px);letter-spacing:-3.8px}.hero-meta{margin-top:48px}.hero-visual{width:100%}.visual-frame{padding:11px;border-radius:13px}.portrait-placeholder{height:340px}.floating-stamp{right:-10px;width:86px;height:86px;font-size:10px}.service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.service-card{padding:18px;min-height:170px}.project-grid{grid-template-columns:1fr}.project-art{height:245px}.section{padding:82px 0}.section-heading{padding:42px 0 26px}.skills-panel{padding:24px}.footer-links{width:100%;justify-content:space-between}.desktop-nav.open{background:#0d1428;border-color:#344264}.header-actions{gap:12px}}
 @media(max-width:390px){.hero-meta{gap:15px}.hero-meta small{font-size:7px}.portrait-placeholder{height:300px}}
+
+/* Header overflow menu: admin entry is intentionally tucked away from public navigation. */
+.more-menu-wrap{position:relative;display:flex;align-items:center}
+.more-menu-toggle{width:34px;height:34px;display:grid;place-items:center;border:1px solid #344264;border-radius:10px;background:#111a30;color:#eaf0ff;font-size:23px;line-height:1;cursor:pointer;transition:border-color .2s,background .2s}
+.more-menu-toggle:hover,.more-menu-toggle[aria-expanded="true"]{border-color:#987cff;background:#1b2442}
+.more-menu[hidden]{display:none!important}
+.more-menu{position:absolute;z-index:1000;right:0;top:calc(100% + 12px);width:176px;padding:7px;border:1px solid #344264;border-radius:12px;background:#10182d;box-shadow:0 18px 48px #0009;animation:menuReveal .16s ease-out}
+.more-menu a{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:8px;color:#f0f3ff;font-size:12px;text-decoration:none}
+.more-menu a:hover{background:#25264a;color:#c1aaff}
+.more-menu a span{color:#a991ff}
+@keyframes menuReveal{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:680px){.more-menu-toggle{width:32px;height:32px}.more-menu{right:-4px}}
