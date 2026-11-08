@@ -14,7 +14,7 @@ jobs:
           node-version: 20
       - name: Check JavaScript syntax
         run: |
-          for file in assets/js/*.js; do node --check "$file"; done
+          for file in assets/js/*.js; do node --input-type=module --check < "$file"; done
       - name: Validate JSON configuration
         run: |
           node -e "JSON.parse(require('fs').readFileSync('database.rules.json','utf8'))"
