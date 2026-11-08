@@ -121,5 +121,17 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMoreMenu();});
 $("#lightboxClose").addEventListener("click",()=>{$("#lightbox").classList.remove("open");$("#lightbox").setAttribute("aria-hidden","true");document.body.classList.remove("modal-open")});
 $("#lightbox").addEventListener("click",e=>{if(e.target.id==="lightbox")$("#lightboxClose").click()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#lightboxClose").click()});
-try{data=await loadSiteData();render()}catch(error){console.error(error);data={};render()}
-window.addEventListener("load",()=>setTimeout(()=>$("#loader")?.classList.add("done"),300));
+// Load the public content without allowing a slow Firebase request to trap the page behind the splash screen.
+const hideLoader=()=>$("#loader")?.classList.add("done");
+try{
+ const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("Content request timed out")),8000));
+ data=await Promise.race([loadSiteData(),timeout]);
+ render();
+}catch(error){
+ console.error("Site initialization:",error);
+ data={};
+ render();
+}finally{
+ // Also works when the window load event fired before this async module finished.
+ requestAnimationFrame(()=>setTimeout(hideLoader,250));
+}
