@@ -10,6 +10,22 @@ export const defaults = {
 };
 export async function loadSiteData(){
  if(!databaseConfigured||!database)return {...defaults,backendStatus:"not-configured"};
- try{const snap=await get(ref(database,"/"));return {...defaults,...(snap.exists()?snap.val():{}),backendStatus:"connected"}}
- catch(error){console.error("Public content load failed",error);return {...defaults,backendStatus:"unavailable"}}
+ // Read only the public top-level sections. This works with Firebase Rules that
+ // deny root reads while allowing public reads on individual content paths.
+ const keys=["profile","hero","about","services","portfolio","categories","skills","experience","testimonials","contact","socialLinks","seo","websiteSettings"];
+ try{
+  const entries=await Promise.all(keys.map(async key=>{
+   try{
+    const snap=await get(ref(database,key));
+    return [key,snap.exists()?snap.val():defaults[key]];
+   }catch(error){
+    console.warn("Could not read public section:",key,error);
+    return [key,defaults[key]];
+   }
+  }));
+  return {...defaults,...Object.fromEntries(entries),backendStatus:"connected"};
+ }catch(error){
+  console.error("Public content load failed",error);
+  return {...defaults,backendStatus:"unavailable"};
+ }
 }
