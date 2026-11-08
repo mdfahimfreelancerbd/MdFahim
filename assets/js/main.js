@@ -1,6 +1,6 @@
 import { loadSiteData } from "./data.js";
 import { auth } from "./firebase.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { ADMIN_EMAIL } from "./firebase-config.js";
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -80,20 +80,37 @@ function render(){
 $("#themeToggle")?.addEventListener("click",()=>{const v=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=v;localStorage.setItem("fahim-theme",v);});
 document.documentElement.dataset.theme=localStorage.getItem("fahim-theme")||"dark";
 $("#langToggle")?.addEventListener("click",()=>{setLanguage(lang==="en"?"bn":"en");renderServices();renderProjects();renderExperience();renderContact();});
-// Reveal the Admin Panel menu item only for the verified owner account with a server-assigned admin claim.
+// Keep account actions in sync with the actual Firebase session.
+// Admin Panel is shown only to the verified owner account with the server-assigned admin claim.
 const adminPanelLink=$("#adminPanelLink");
+const accountMenuLink=$("#menuAccountLink");
+const logoutMenuLink=$("#menuLogoutLink");
 onAuthStateChanged(auth,async user=>{
- // Fail closed on every auth transition: regular users never see the owner dashboard link.
- if(!adminPanelLink)return;
- adminPanelLink.hidden=true;
+ if(accountMenuLink){
+  accountMenuLink.hidden=false;
+  accountMenuLink.href="account/";
+  accountMenuLink.innerHTML=user?'My Account <span>↗</span>':'Login / Register <span>↗</span>';
+ }
+ if(adminPanelLink)adminPanelLink.hidden=true;
+ if(logoutMenuLink)logoutMenuLink.hidden=!user;
  if(!user)return;
  try{
   const token=await user.getIdTokenResult(true);
-  const isOwner=user.email?.toLowerCase()===ADMIN_EMAIL.toLowerCase();
-  adminPanelLink.hidden=!(isOwner&&user.emailVerified===true&&token.claims.admin===true);
+  const isAuthorized=user.email?.toLowerCase()===ADMIN_EMAIL.toLowerCase()&&user.emailVerified===true&&token.claims.admin===true;
+  if(adminPanelLink)adminPanelLink.hidden=!isAuthorized;
  }catch(error){
   console.warn("Admin permission check failed; keeping dashboard link hidden.",error);
-  adminPanelLink.hidden=true;
+  if(adminPanelLink)adminPanelLink.hidden=true;
+ }
+});
+logoutMenuLink?.addEventListener("click",async event=>{
+ event.preventDefault();
+ try{
+  await signOut(auth);
+  closeMoreMenu();
+ }catch(error){
+  console.error("Could not sign out:",error);
+  alert("Could not log out. Please try again.");
  }
 });
 const moreToggle=$("#moreMenuToggle"),moreMenu=$("#moreMenu");
