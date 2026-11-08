@@ -1,6 +1,8 @@
 import { loadSiteData } from "./data.js";
 import { auth } from "./firebase.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { onValue, ref } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+import { database, databaseConfigured } from "./firebase.js";
 import { isAuthorizedAdmin } from "./admin-auth.js";
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -134,4 +136,14 @@ try{
 }finally{
  // Also works when the window load event fired before this async module finished.
  requestAnimationFrame(()=>setTimeout(hideLoader,250));
+}
+// Keep the public portfolio synchronized with Firebase changes made in the admin studio.
+// Each section is observed independently to match least-privilege database rules.
+if(databaseConfigured && database){
+ const publicKeys=["profile","hero","about","services","portfolio","categories","skills","experience","testimonials","contact","socialLinks","seo","websiteSettings"];
+ publicKeys.forEach(key=>onValue(ref(database,key),snapshot=>{
+  if(!data)data={};
+  data[key]=snapshot.exists()?snapshot.val():undefined;
+  render();
+ },error=>console.error("Live content sync failed for "+key+":",error)));
 }
