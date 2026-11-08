@@ -21,3 +21,5 @@
 .theme-choice{padding:18px 24px;border:1px solid var(--line);background:var(--bg);color:var(--text);cursor:pointer}
 .theme-choice:hover{border-color:var(--accent);color:var(--accent)}
 @media(max-width:600px){.item-row{gap:10px;align-items:flex-start}.mini-action{padding:5px}}
+
+@media(max-width:760px){.admin-sidebar{width:100%;height:auto;position:relative;inset:auto;padding:14px}.admin-sidebar nav{display:flex;overflow-x:auto;gap:6px}.admin-sidebar nav button{white-space:nowrap}.sidebar-label,.sidebar-bottom{display:none}.admin-body{display:block}.admin-main{margin:0;width:100%;padding:24px 16px 48px}.admin-top{gap:14px;align-items:flex-start;flex-wrap:wrap}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
