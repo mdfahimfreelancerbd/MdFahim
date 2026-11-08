@@ -78,6 +78,11 @@ $("#themeToggle").addEventListener("click",()=>{const v=document.documentElement
 document.documentElement.dataset.theme=localStorage.getItem("fahim-theme")||"dark";
 $("#langToggle").addEventListener("click",()=>{setLanguage(lang==="en"?"bn":"en");renderServices();renderProjects();renderExperience();renderContact()});
 $("#menuToggle").addEventListener("click",()=>$(".desktop-nav").classList.toggle("open"));
+const moreToggle=$("#moreMenuToggle"),moreMenu=$("#moreMenu");
+moreToggle?.addEventListener("click",()=>{const opening=moreMenu.hidden;moreMenu.hidden=!opening;moreToggle.setAttribute("aria-expanded",String(opening))});
+document.addEventListener("click",e=>{if(moreMenu&&!e.target.closest(".more-menu-wrap")){moreMenu.hidden=true;moreToggle?.setAttribute("aria-expanded","false")}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&moreMenu){moreMenu.hidden=true;moreToggle?.setAttribute("aria-expanded","false")}});
+
 document.querySelectorAll(".desktop-nav a").forEach(a=>a.addEventListener("click",()=>$(".desktop-nav").classList.remove("open")));
 $("#lightboxClose").addEventListener("click",()=>{$("#lightbox").classList.remove("open");$("#lightbox").setAttribute("aria-hidden","true");document.body.classList.remove("modal-open")});
 $("#lightbox").addEventListener("click",e=>{if(e.target.id==="lightbox")$("#lightboxClose").click()});
