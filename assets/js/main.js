@@ -83,11 +83,18 @@ $("#langToggle")?.addEventListener("click",()=>{setLanguage(lang==="en"?"bn":"en
 // Reveal the Admin Panel menu item only for the verified owner account with a server-assigned admin claim.
 const adminPanelLink=$("#adminPanelLink");
 onAuthStateChanged(auth,async user=>{
+ // Fail closed on every auth transition: regular users never see the owner dashboard link.
  if(!adminPanelLink)return;
  adminPanelLink.hidden=true;
- if(!user||!user.emailVerified||user.email?.toLowerCase()!==ADMIN_EMAIL.toLowerCase())return;
- try{const token=await user.getIdTokenResult(true);adminPanelLink.hidden=token.claims.admin!==true;}
- catch(error){console.warn("Could not verify admin menu permission",error);adminPanelLink.hidden=true;}
+ if(!user)return;
+ try{
+  const token=await user.getIdTokenResult(true);
+  const isOwner=user.email?.toLowerCase()===ADMIN_EMAIL.toLowerCase();
+  adminPanelLink.hidden=!(isOwner&&user.emailVerified===true&&token.claims.admin===true);
+ }catch(error){
+  console.warn("Admin permission check failed; keeping dashboard link hidden.",error);
+  adminPanelLink.hidden=true;
+ }
 });
 const moreToggle=$("#moreMenuToggle"),moreMenu=$("#moreMenu");
 function closeMoreMenu(){if(!moreMenu)return;moreMenu.hidden=true;moreToggle?.setAttribute("aria-expanded","false");}
