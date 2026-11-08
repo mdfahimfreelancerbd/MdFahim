@@ -1,7 +1,7 @@
 import { loadSiteData } from "./data.js";
 import { auth } from "./firebase.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { ADMIN_EMAIL } from "./firebase-config.js";
+import { isAuthorizedAdmin } from "./admin-auth.js";
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let lang=localStorage.getItem("fahim-language")||"en",data,activeCategory="All";
@@ -95,8 +95,7 @@ onAuthStateChanged(auth,async user=>{
  if(logoutMenuLink)logoutMenuLink.hidden=!user;
  if(!user)return;
  try{
-  const token=await user.getIdTokenResult(true);
-  const isAuthorized=user.email?.toLowerCase()===ADMIN_EMAIL.toLowerCase()&&user.emailVerified===true&&token.claims.admin===true;
+  const isAuthorized=await isAuthorizedAdmin(user);
   if(adminPanelLink)adminPanelLink.hidden=!isAuthorized;
  }catch(error){
   console.warn("Admin permission check failed; keeping dashboard link hidden.",error);
