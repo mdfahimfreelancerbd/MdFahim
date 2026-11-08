@@ -1,0 +1,27 @@
+/* Admin workspace art direction — dashboard reference */
+.admin-body{background:radial-gradient(ellipse at 85% 0%,#33216a2b,transparent 35%),#090d18;color:#eef2ff}
+.admin-sidebar{background:linear-gradient(180deg,#111527,#0b1020);border-right:1px solid #27304c;width:238px}
+.admin-sidebar .brand-logo{width:34px;height:34px;object-fit:contain}
+.admin-sidebar nav button{border-radius:7px;color:#9ca9c7;padding:12px 13px;font-size:11px}
+.admin-sidebar nav button.active{background:linear-gradient(100deg,#4f5fff35,#a45dff20);border:1px solid #776bff55;box-shadow:inset 3px 0 #927aff;color:#d8d4ff}
+.sidebar-label{color:#687796}
+.admin-main{margin-left:238px;width:calc(100% - 238px);max-width:none;padding:28px clamp(22px,3vw,48px) 65px}
+.admin-top{border-color:#28324d;padding-bottom:20px;margin-bottom:25px}
+.admin-top h1{font-size:30px;color:#f4f6ff}
+.admin-top .eyebrow{color:#9eacd0}
+.admin-top .button{background:linear-gradient(110deg,#526cff,#9b5cff);border-radius:7px}
+.secondary-btn{border-color:#394563;border-radius:6px;color:#c1cbe1;padding:11px 15px}
+.demo-alert{border-radius:8px;background:#111d35;border:1px solid #34466d;color:#b6c5e7;padding:13px 16px}
+.stats-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.stat-card,.admin-card{border:1px solid #283654;border-radius:10px;background:linear-gradient(145deg,#141c31,#0f1526);box-shadow:0 14px 35px #0003}
+.stat-card{min-height:132px;padding:19px}.stat-card span{color:#8d9dbd}.stat-card strong{font-size:28px;color:#f1f3ff}.stat-card small{color:#a68dff}
+.admin-card{padding:24px}.admin-card h2,.admin-card h3{color:#eef2ff}
+.admin-form{gap:16px}.field>span,.field label{color:#9eaccb}.field input,.field textarea,.field select{background:#0a1020;border:1px solid #2c3a5b;border-radius:6px;color:#edf1ff;padding:13px}.field input:focus,.field textarea:focus,.field select:focus{border-color:#8f7aff;box-shadow:0 0 0 3px #8f7aff22}
+.upload-zone{border-color:#52618a;background:#111b32;border-radius:10px}
+.upload-preview{background:#0c1428;border-color:#34466d;border-radius:8px}
+.login-shell{min-height:100vh;background:radial-gradient(ellipse at 50% 20%,#40318c70,transparent 48%),radial-gradient(ellipse at 10% 90%,#0b4d8970,transparent 35%),#080c18}
+.login-card{width:min(460px,calc(100% - 32px));border:1px solid #39466b;border-radius:16px;background:linear-gradient(145deg,#171e37,#0d1426);box-shadow:0 30px 100px #0009;padding:42px}
+.login-card h1{font-size:34px;color:#f5f6ff}
+.login-card .button{background:linear-gradient(110deg,#526cff,#9b5cff);border-radius:7px}
+@media(max-width:760px){.admin-sidebar{width:100%;padding:13px;background:#101629}.admin-sidebar .brand-logo{width:30px;height:30px}.admin-main{margin:0;width:100%;padding:20px 14px 42px}.admin-top h1{font-size:26px}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-card{padding:18px}}
+@media(max-width:420px){.stats-grid{gap:9px}.stat-card{padding:14px;min-height:112px}.stat-card strong{font-size:23px}}
