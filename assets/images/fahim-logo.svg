@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">FA graphic designer monogram</title><desc id="desc">Blue and cyan F with a golden orange A and a fountain pen nib on a dark background.</desc>
+<defs>
+ <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#35e7ff"/><stop offset=".48" stop-color="#087bff"/><stop offset="1" stop-color="#092caa"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff02e"/><stop offset=".5" stop-color="#ff9e00"/><stop offset="1" stop-color="#ff4b0b"/></linearGradient>
+ <linearGradient id="swoosh" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#00dfff"/><stop offset=".5" stop-color="#126cff"/><stop offset="1" stop-color="#ff9b00"/></linearGradient>
+</defs>
+<rect width="512" height="512" rx="72" fill="#05070d"/>
+<path d="M130 363V150c0-39 31-70 70-70h178l-37 48c-12 16-30 24-50 24H214c-17 0-31 14-31 31v25c14-22 34-34 62-34h119l-34 47c-12 16-29 24-49 24h-55c-24 0-43 19-43 43v75l-43 43z" fill="url(#blue)"/>
+<path d="M194 385 340 154c12-19 39-18 50 2l105 201-49 28-83-151-80 126c-21 29-49 44-89 45z" fill="url(#gold)"/>
+<path d="M318 280h43l26 50-48 65-48-65z" fill="url(#gold)"/>
+<circle cx="339" cy="329" r="9" fill="#080b12"/>
+<path d="M339 338v48" stroke="#080b12" stroke-width="8" stroke-linecap="round"/>
+<path d="M109 244c-48 58-45 126 6 166 84 66 235 61 330-10-47 61-143 91-241 77C93 462 24 395 38 319c6-31 28-57 71-75z" fill="none" stroke="url(#swoosh)" stroke-width="12" stroke-linecap="round"/>
+<g><rect x="393" y="92" width="34" height="34" rx="6" fill="url(#blue)"/><rect x="438" y="64" width="30" height="30" rx="5" fill="url(#gold)"/><rect x="441" y="140" width="22" height="22" rx="4" fill="url(#gold)"/><rect x="397" y="170" width="19" height="19" rx="4" fill="url(#blue)"/></g>
+</svg>
