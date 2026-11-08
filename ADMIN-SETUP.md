@@ -1,28 +1,29 @@
-# Admin and backend setup
+# Admin and backend security setup
 
-This repository includes the client integration foundation. It is not production-ready until the owner completes these console steps and verifies them.
+## Access model
+- Public portfolio content is readable by visitors.
+- The database root and all unlisted paths are denied by default.
+- A signed-in user can read/write only their own `users/{uid}` node.
+- Admin writes require a Firebase-issued custom claim `admin: true`, a verified email, and the exact owner email `mdfahim.freelancer.bd@gmail.com`.
+- Never assign admin claims from browser JavaScript or from Realtime Database user-editable data.
 
-## Firebase Authentication
-1. In Firebase Console, enable Authentication > Sign-in method > Email/Password.
-2. Create the owner account mdfahim.freelancer.bd@gmail.com privately. Never publish or share its password.
-3. Grant the owner Firebase Auth custom claim admin=true from a trusted Admin SDK environment (never from browser JavaScript).
-4. Sign out and back in. The Admin Panel checks both the exact email and the verified custom claim.
+## Grant the owner admin claim (required once)
+Use a trusted Firebase Admin SDK environment only. Never put a service-account key in this repository or website.
 
-Trusted Admin SDK example (run only in a secured environment):
-    await getAuth().setCustomUserClaims("OWNER_FIREBASE_UID", { admin: true });
+```js
+await getAuth().setCustomUserClaims("OWNER_FIREBASE_UID", { admin: true });
+```
+
+Replace OWNER_FIREBASE_UID with the owner's Firebase Authentication UID. Then sign out and sign in again (or force-refresh the ID token). The owner email must be verified.
 
 ## Realtime Database
-1. Create a Realtime Database in project graphic-designer-9a84d.
-2. Copy the exact database URL shown in Firebase Console.
-3. Add it to assets/js/firebase-config.js as databaseURL. Do not guess the URL.
-4. Publish database.rules.json in Realtime Database > Rules.
-5. Test public read and unauthorized write denial in Rules Playground before production.
+1. Open Firebase Console > Realtime Database > Rules.
+2. Publish the exact contents of `database.rules.json`.
+3. Test: unauthenticated root read denied; public portfolio section read allowed; regular user write to public sections denied; user A reading user B's node denied; owner without admin claim denied; verified owner with admin claim can write public sections.
+4. Keep private user details only under `users/{uid}`. Never store private account data in public portfolio sections.
 
 ## Cloudinary
-Cloud name: h1vevauo. Verify the exact upload preset API name in Cloudinary Console and ensure it is unsigned. The browser never receives the API secret. Unsigned browser uploads cannot securely delete stored files; deleting a Firebase portfolio record does not delete its Cloudinary binary. Secure binary deletion needs a trusted signed server endpoint.
+The unsigned upload preset is public to browser visitors and is not an authentication boundary. Restrict allowed formats, maximum file size, and upload folder in Cloudinary. For stronger abuse protection and secure deletion, move uploads to a trusted signed server endpoint. Never expose the Cloudinary API secret.
 
 ## Deployment
-Serve repository root over HTTPS on GitHub Pages or Cloudflare Pages. No build command is required. Firebase SDK is loaded from the versioned Google CDN.
-
-## Before configuration
-When databaseURL is blank, public portfolio remains empty (no fabricated work) and content editing is unavailable. Do not claim login, database rules, or uploads are tested until verified with the actual Firebase and Cloudinary projects.
+After committing, wait for the Pages deployment. Security Rules must also be published manually in Firebase Console; a repository JSON file does not publish them automatically.
