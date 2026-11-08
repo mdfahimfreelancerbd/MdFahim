@@ -1,10 +1,16 @@
 {
   "rules": {
-    ".read": true,
+    ".read": false,
     ".write": false,
+
     "$section": {
-      ".read": true,
-      ".write": "auth != null && auth.token.admin === true && auth.token.email === 'mdfahim.freelancer.bd@gmail.com'"
+      ".read": "$section === 'profile' || $section === 'hero' || $section === 'about' || $section === 'services' || $section === 'portfolio' || $section === 'categories' || $section === 'skills' || $section === 'experience' || $section === 'testimonials' || $section === 'contact' || $section === 'socialLinks' || $section === 'seo' || $section === 'websiteSettings'",
+      ".write": "auth != null && auth.token.admin === true && auth.token.email_verified === true && auth.token.email === 'mdfahim.freelancer.bd@gmail.com'",
+
+      "$uid": {
+        ".read": "$section === 'users' && auth != null && auth.uid === $uid",
+        ".write": "$section === 'users' && auth != null && auth.uid === $uid"
+      }
     }
   }
 }
