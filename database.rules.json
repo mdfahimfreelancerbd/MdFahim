@@ -1,0 +1,10 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "$section": {
+      ".read": true,
+      ".write": "auth != null && auth.token.admin === true && auth.token.email === 'mdfahim.freelancer.bd@gmail.com'"
+    }
+  }
+}
