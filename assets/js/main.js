@@ -1,4 +1,7 @@
 import { loadSiteData } from "./data.js";
+import { auth } from "./firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { ADMIN_EMAIL } from "./firebase-config.js";
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let lang=localStorage.getItem("fahim-language")||"en",data,activeCategory="All";
@@ -77,6 +80,15 @@ function render(){
 $("#themeToggle")?.addEventListener("click",()=>{const v=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=v;localStorage.setItem("fahim-theme",v);});
 document.documentElement.dataset.theme=localStorage.getItem("fahim-theme")||"dark";
 $("#langToggle")?.addEventListener("click",()=>{setLanguage(lang==="en"?"bn":"en");renderServices();renderProjects();renderExperience();renderContact();});
+// Reveal the Admin Panel menu item only for the verified owner account with a server-assigned admin claim.
+const adminPanelLink=$("#adminPanelLink");
+onAuthStateChanged(auth,async user=>{
+ if(!adminPanelLink)return;
+ adminPanelLink.hidden=true;
+ if(!user||!user.emailVerified||user.email?.toLowerCase()!==ADMIN_EMAIL.toLowerCase())return;
+ try{const token=await user.getIdTokenResult(true);adminPanelLink.hidden=token.claims.admin!==true;}
+ catch(error){console.warn("Could not verify admin menu permission",error);adminPanelLink.hidden=true;}
+});
 const moreToggle=$("#moreMenuToggle"),moreMenu=$("#moreMenu");
 function closeMoreMenu(){if(!moreMenu)return;moreMenu.hidden=true;moreToggle?.setAttribute("aria-expanded","false");}
 moreToggle?.addEventListener("click",()=>{const opening=moreMenu.hidden;moreMenu.hidden=!opening;moreToggle.setAttribute("aria-expanded",String(opening));});
