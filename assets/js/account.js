@@ -1,7 +1,8 @@
 import { ADMIN_EMAIL, firebaseConfig } from "./firebase-config.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,signOut,onAuthStateChanged,updateProfile,GoogleAuthProvider,signInWithPopup } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-// Use the default Firebase app so the public site, account page and admin dashboard share one authenticated session.\nconst app=initializeApp(firebaseConfig);
+// Use the default Firebase app so the public site, account page and admin dashboard share one authenticated session.
+const app=initializeApp(firebaseConfig);
 const accountAuth=getAuth(app);
 const $=s=>document.querySelector(s);let mode="login";
 $("#year").textContent=new Date().getFullYear();
