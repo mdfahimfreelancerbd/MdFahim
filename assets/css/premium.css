@@ -71,3 +71,30 @@ body{background:radial-gradient(ellipse at 78% 4%,#3a168a35,transparent 32%),rad
 .more-menu a span{color:#a991ff}
 @keyframes menuReveal{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:680px){.more-menu-toggle{width:32px;height:32px}.more-menu{right:-4px}}
+
+/* Unified premium menu — one consistent control on mobile and desktop */
+.site-header{justify-content:space-between}
+.header-actions{margin-left:auto;display:flex;align-items:center}
+.more-menu-wrap{position:relative;display:flex;align-items:center}
+.more-menu-toggle{width:48px;height:48px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;border:1px solid #46527a;border-radius:14px;background:linear-gradient(145deg,#172344,#11172d);color:#f5f6ff;cursor:pointer;box-shadow:0 8px 25px #0003;transition:transform .2s,border-color .2s,box-shadow .2s}
+.more-menu-toggle span{display:block;width:3px;height:3px;border-radius:50%;background:#e9eaff;transition:transform .2s,background .2s}
+.more-menu-toggle:hover,.more-menu-toggle[aria-expanded="true"]{border-color:#a18aff;box-shadow:0 0 0 4px #9472ff18,0 12px 28px #0004;transform:translateY(-1px)}
+.more-menu-toggle[aria-expanded="true"] span{background:#b9a6ff}
+.more-menu[hidden]{display:none!important}
+.more-menu{position:absolute;z-index:1000;right:0;top:calc(100% + 14px);width:min(310px,calc(100vw - 36px));padding:14px;border:1px solid #39466b;border-radius:18px;background:linear-gradient(155deg,#151f3b 0%,#0d1428 72%);box-shadow:0 24px 70px #000b;animation:menuReveal .18s ease-out;max-height:min(78vh,680px);overflow-y:auto}
+.menu-heading{display:flex;justify-content:space-between;align-items:center;padding:8px 8px 14px;border-bottom:1px solid #ffffff17;color:#b9a8ff;font-size:9px;letter-spacing:2px}
+.menu-heading small{color:#8998ba;font-size:8px;letter-spacing:1.2px}
+.menu-navigation{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:12px 0}
+.menu-navigation a{display:flex;justify-content:space-between;align-items:center;padding:12px 10px;border-radius:9px;color:#e8edff;font-size:12px;transition:background .2s,color .2s}
+.menu-navigation a:hover{background:#28345a;color:#c2b1ff}
+.menu-navigation a span{color:#7888ad;font-size:9px}
+.menu-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:1px solid #ffffff17;padding:12px 0}
+.menu-tools button{display:grid;gap:7px;text-align:left;padding:12px;border:1px solid #344263;border-radius:10px;background:#111a31;color:#a8b5d1;cursor:pointer}
+.menu-tools button span{font-size:9px;letter-spacing:1px;text-transform:uppercase}
+.menu-tools button b{font-size:11px;color:#f2f4ff;font-weight:600}
+.menu-tools button:hover{border-color:#8f78ff;background:#1b2545}
+.menu-account{display:flex;justify-content:space-between;align-items:center;padding:14px 13px;border:1px solid #4b4a83;border-radius:10px;color:#f3f3ff;font-size:12px;background:#222348}
+.menu-account span{color:#b9a5ff}
+.menu-contact{display:flex;justify-content:center;margin-top:9px;padding:13px;border-radius:10px;background:linear-gradient(105deg,#587cff,#9a5cff);color:white;font-size:12px;font-weight:700}
+@keyframes menuReveal{from{opacity:0;transform:translateY(-7px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:680px){.site-header{height:76px;padding-inline:5%}.more-menu-toggle{width:43px;height:43px}.more-menu{right:0;top:calc(100% + 11px)}}
