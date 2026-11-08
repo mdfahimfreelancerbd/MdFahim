@@ -1,12 +1,19 @@
-import { auth } from "./firebase.js";
-import { ADMIN_EMAIL } from "./firebase-config.js";
+import { auth, ADMIN_EMAIL } from "./firebase.js";
 import { onAuthStateChanged,signInWithEmailAndPassword,signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 export { auth, ADMIN_EMAIL, onAuthStateChanged, signInWithEmailAndPassword, signOut };
 
-// The owner account is identified by Firebase's verified email address.
-// Never trust a client-provided role or a display name for admin access.
+// Admin access requires a Firebase-issued custom claim. A matching email alone
+// is never sufficient; browser code cannot grant this claim to itself.
 export async function isAuthorizedAdmin(user){
- const email=String(user?.email||"").trim().toLowerCase();
+ if(!user || user.emailVerified!==true) return false;
+ const email=String(user.email||"").trim().toLowerCase();
  const ownerEmail=String(ADMIN_EMAIL||"").trim().toLowerCase();
- return Boolean(user && user.emailVerified===true && email && email===ownerEmail);
+ if(!email || email!==ownerEmail) return false;
+ try {
+  const token=await user.getIdTokenResult();
+  return token.claims.admin===true && token.claims.email_verified===true &&
+    String(token.claims.email||"").trim().toLowerCase()===ownerEmail;
+ } catch {
+  return false;
+ }
 }
