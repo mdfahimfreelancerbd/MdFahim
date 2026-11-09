@@ -11,6 +11,23 @@
 </head>
 <body>
 <div class="loader" id="loader"><span class="loader-mark">F.</span><span>DESIGNING WITH INTENT</span></div>
+<script>
+/* Fail-safe: never leave visitors trapped on the splash screen if a module,
+   Firebase request, or third-party import fails on a slow/mobile connection. */
+(function () {
+  var release = function () {
+    var splash = document.getElementById("loader");
+    if (!splash) return;
+    splash.classList.add("done");
+    window.setTimeout(function () {
+      if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+    }, 650);
+  };
+  window.setTimeout(release, 1600);
+  window.addEventListener("error", function () { window.setTimeout(release, 250); }, { once: true });
+  window.addEventListener("unhandledrejection", function () { window.setTimeout(release, 250); }, { once: true });
+})();
+</script>
 <header class="site-header"><a class="brand" href="#home"><img class="brand-logo" src="assets/images/fahim-logo.svg" alt="FA monogram logo"><span>FAHIM AHMED<small>GRAPHIC DESIGNER</small></span></a>
 <div class="header-actions"><div class="more-menu-wrap"><button class="more-menu-toggle" id="moreMenuToggle" type="button" aria-label="Open site menu" aria-expanded="false" aria-controls="moreMenu"><span></span><span></span><span></span></button><div class="more-menu" id="moreMenu" hidden><div class="menu-heading"><span>EXPLORE</span><small>MD FAHIM AHMED</small></div><nav class="menu-navigation" aria-label="Main navigation"><a href="#home">Home <span>01</span></a><a href="#about" data-i18n="navAbout">About <span>02</span></a><a href="#services" data-i18n="navServices">Services <span>03</span></a><a href="#work" data-i18n="navWork">Portfolio <span>04</span></a><a href="#experience" data-i18n="navExperience">Experience <span>05</span></a><a href="#testimonials">Testimonials <span>06</span></a><a href="#contact" data-i18n="navContact">Contact <span>07</span></a></nav><div class="menu-tools"><button type="button" id="themeToggle"><span>Appearance</span><b>☼ Dark / Light</b></button><button type="button" id="langToggle"><span>Language</span><b>বাংলা / English</b></button></div><a class="menu-account" id="menuAccountLink" href="account/">Login / Register <span>↗</span></a>
 <a class="menu-account" id="adminPanelLink" href="admin/" hidden>Admin Panel <span>↗</span></a>
